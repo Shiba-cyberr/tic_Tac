@@ -3,17 +3,19 @@
 
 #define BOARD_SIZE 3
 typedef struct {
-    int playerWin;
+    int player;
     int computerWin;
     int draw;
 }Score;
 
 int difficulty;
-Score score = {.playerWin =0,.computerWin = 0,.draw = 0};
+Score score = {.player =0,.computerWin = 0,.draw = 0};
 
 void difficaulty();
 void clearScreen();
 void printBoard(char board[BOARD_SIZE][BOARD_SIZE]);
+int win(char board[BOARD_SIZE][BOARD_SIZE], char player);
+int draw(char board[BOARD_SIZE][BOARD_SIZE], char player);
 
 
 int main(){
@@ -59,7 +61,7 @@ void clearScreen(){
 //printing the board
 void printBoard(char board[BOARD_SIZE][BOARD_SIZE]){
     clearScreen();
-    printf("\nScore Board::\n  Your score: %d .\n  Compurte Score: %d .\n  Draws: %d .",score.playerWin, score.computerWin, score.draw);
+    printf("\nScore Board::\n  Your score: %d .\n  Compurte Score: %d .\n  Draws: %d .",score.player, score.computerWin, score.draw);
     printf("\nTic-Tac-Toc");
 
     for(int i=0; i<BOARD_SIZE; i++){
@@ -74,4 +76,43 @@ void printBoard(char board[BOARD_SIZE][BOARD_SIZE]){
         printf("\n---+---+---");
     }
     printf("\n\n");
+}
+
+//chaking wining score
+int win(char board[BOARD_SIZE][BOARD_SIZE], char player) {
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        // Check rows
+        if (board[i][0] == player && board[i][1] == player && board[i][2] == player) {
+            return 1;
+        }
+        // Check columns
+        if (board[0][i] == player && board[1][i] == player && board[2][i] == player) {
+            return 1;
+        }
+    }
+
+    // Check diagonals
+    if (board[0][0] == player && board[1][1]== player && board[2][2] == player) {
+        return 1;
+    }
+    if (board[0][2]== player && board[1][1] == player && board[2][0] == player) {
+        return 1;
+    }
+
+    return 0; 
+}
+
+
+
+//chaking draw
+int draw(char board[BOARD_SIZE][BOARD_SIZE], char player){
+    for(int i =0; i < BOARD_SIZE; i++){
+        for(int j =0; j < BOARD_SIZE; j++){
+            if(board[i][j]== ' '){
+                return 0;
+            }
+        }
+    }
+    return 1;
+
 }
